@@ -1,43 +1,52 @@
-import logo from "./logo.svg";
-import "./App.css";
+import React from "react";
 import logoContador from "./images/reloj.png";
+import "./App.css";
 import Boton from "./componentes/Boton";
-import { Contador } from "./componentes/Contador";
-import { useState } from "react";
-function App() {
-  const [numClicks, setNumclicks] = useState(0);
+import Contador from './componentes/Contador'; // Correcto
 
-  const manejarClick = () => {
-    setNumclicks(numClicks + 1);
-  };
+class App extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      numClicks: 0
+    };
+    this.manejarClick = this.manejarClick.bind(this);
+    this.reiniciarContador = this.reiniciarContador.bind(this); // Corregido
+  }
 
-  const reinicirContador = () => {
-    setNumclicks(0);
-  };
+  manejarClick() {
+    this.setState(({ numClicks }) => ({ numClicks: numClicks + 1 }));
+  }
 
-  return (
-    <div className="App">
-      <div className="logo-contenedor">
-        <h1 className="title-contador">Contador con React </h1>
-        <img className="logo" src={logoContador} alt="logo"></img>
+  reiniciarContador() {
+    this.setState({ numClicks: 0 }); // Corregido
+  }
+
+  render() {
+    return (
+      <div className="App">
+        <div className="logo-contenedor">
+          <h1 className="title-contador">Contador con React </h1>
+          <img className="logo" src={logoContador} alt="logo"></img>
+        </div>
+
+        <div className="contenedor-principal">
+          <Contador numClicks={this.state.numClicks} />
+          <Boton
+            texto={"Click"}
+            EsBotondeClick={true}
+            manejarClick={this.manejarClick}
+          />
+
+          <Boton
+            texto={"Reiniciar"}
+            EsBotondeClick={false}
+            manejarClick={this.reiniciarContador} // Corregido
+          />
+        </div>
       </div>
-
-      <div className="contenedor-principal">
-        <Contador numClicks={numClicks} />
-        <Boton
-          texto={"Click"}
-          EsBotondeClick={true}
-          manejarClick={manejarClick}
-        />
-
-        <Boton
-          texto={"Reiniciar"}
-          EsBotondeClick={false}
-          manejarClick={reinicirContador}
-        />
-      </div>
-    </div>
-  );
+    );
+  }
 }
 
 export default App;

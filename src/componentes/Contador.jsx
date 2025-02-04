@@ -1,15 +1,22 @@
 import React from 'react'
 import '../css/contador.css'
-export const Contador = ({ numClicks }) => {
-  return (
+
+class Contador extends React.Component {
+
+  render () {
+    return (
 
 
-    <div className='contador'>
+      <div className='contador'>
+  
+      {this.props.numClicks}
+  
+      </div>
+  
+  
+    )
+  }
 
-    {numClicks}
-
-    </div>
-
-
-  )
 }
+
+export default Contador;
